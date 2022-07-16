@@ -25,11 +25,17 @@ public class UserController {
     private UserService userService;
 
     @GetMapping (produces = "application/json")
-    public ResponseEntity<List<User>> getAllUsers (HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<List<User>> getAllUsers (HttpServletRequest request, HttpServletResponse response,
+                                                   @RequestParam(value = "delay", defaultValue = "0") String delay) {
 
-        Enumeration<String> headerEnumerator = request.getHeaderNames();
-        while (headerEnumerator.hasMoreElements()) {
-            System.out.println(headerEnumerator.nextElement());
+//        Enumeration<String> headerEnumerator = request.getHeaderNames();
+//        while (headerEnumerator.hasMoreElements()) {
+//            System.out.println(headerEnumerator.nextElement());
+//        }
+        try {
+            Thread.sleep(Long.valueOf(delay));
+        } catch (InterruptedException exception) {
+            LOGGER.error(exception.getMessage());
         }
         List<User> userList = this.userService.getAllUsers();
         return new ResponseEntity<>(userList, HttpStatus.OK);
