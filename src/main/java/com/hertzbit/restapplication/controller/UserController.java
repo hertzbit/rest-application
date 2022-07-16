@@ -2,6 +2,9 @@ package com.hertzbit.restapplication.controller;
 
 import com.hertzbit.restapplication.model.User;
 import com.hertzbit.restapplication.service.UserService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +52,11 @@ public class UserController {
     }
 
     @PostMapping (produces = "application/json")
+    @ApiResponse(
+            responseCode = "201",
+            description = "New User Created",
+            content = @Content(schema = @Schema(implementation = User.class))
+    )
     public ResponseEntity<?> addUserToDatabase (@RequestBody User user) {
         LOGGER.info("Request Received : {}", user);
         User savedUserWithUserID = this.userService.createUser(user);
