@@ -2,23 +2,27 @@ package com.hertzbit.restapplication.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.Arrays;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 	
 	private Integer userId;
 	private String firstName;
 	private String lastName;
-	private String sports;
-	private String country;
 	private Integer salary;
+	private Address address;
+	private String[] contactNumbers;
 
-	public User(Integer userId, String firstName, String lastName, String sports, String country, Integer salary) {
+	public User() {};
+
+	public User(Integer userId, String firstName, String lastName, Integer salary, Address address, String[] contactNumbers) {
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.sports = sports;
-		this.country = country;
 		this.salary = salary;
+		this.address = address;
+		this.contactNumbers = contactNumbers;
 	}
 
 	public Integer getUserId() {
@@ -45,22 +49,6 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public String getSports() {
-		return sports;
-	}
-
-	public void setSports(String sports) {
-		this.sports = sports;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
 	public Integer getSalary() {
 		return salary;
 	}
@@ -69,15 +57,31 @@ public class User {
 		this.salary = salary;
 	}
 
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public String[] getContactNumbers() {
+		return contactNumbers;
+	}
+
+	public void setContactNumbers(String[] contactNumbers) {
+		this.contactNumbers = contactNumbers;
+	}
+
 	@Override
 	public String toString() {
 		return "User{" +
 				"userId=" + userId +
 				", firstName='" + firstName + '\'' +
 				", lastName='" + lastName + '\'' +
-				", sports='" + sports + '\'' +
-				", country='" + country + '\'' +
 				", salary=" + salary +
+				", address=" + address +
+				", contactNumbers=" + Arrays.toString(contactNumbers) +
 				'}';
 	}
 }

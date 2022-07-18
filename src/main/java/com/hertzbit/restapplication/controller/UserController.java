@@ -45,8 +45,14 @@ public class UserController {
     }
 
     @GetMapping (value = "/{userId}", produces = "application/json")
-    public ResponseEntity<?> getRequestedUser(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<?> getRequestedUser(@PathVariable("userId") Integer userId,
+                                              @RequestParam(value = "delay", defaultValue = "0") String delay) {
 
+        try {
+            Thread.sleep(Long.valueOf(delay));
+        } catch (InterruptedException exception) {
+            LOGGER.error(exception.getMessage());
+        }
         User userFromDatabase = this.userService.getSpecificUser(userId);
         return new ResponseEntity<>(userFromDatabase, HttpStatus.OK);
     }

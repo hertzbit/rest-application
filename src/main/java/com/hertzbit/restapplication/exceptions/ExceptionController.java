@@ -23,4 +23,20 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionMessage, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler (value = NoBookFoundException.class)
+    public ResponseEntity<Object> noBookFoundException (NoBookFoundException noBookFound) {
+
+        ExceptionMessage exceptionMessage = new ExceptionMessage(404, noBookFound.getMessage(),
+                new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Date()));
+        return new ResponseEntity<>(exceptionMessage, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler (value = BookWithSameISBNExistsException.class)
+    public ResponseEntity<Object> bookWithSameISBNExistsException (BookWithSameISBNExistsException bookWithSameISBNExists) {
+
+        ExceptionMessage exceptionMessage = new ExceptionMessage(400, bookWithSameISBNExists.getMessage(),
+                new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Date()));
+        return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
+    }
+
 }
