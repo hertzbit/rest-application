@@ -122,6 +122,7 @@ public class BookService {
                 bookFromDB.setISBN(bookFromRequest.getISBN());
                 bookFromDB.setBookId(bookFromDB.getISBN() + "" + bookFromDB.getYearPublished());
             }
+            bookId = bookFromDB.getISBN() + "" + bookFromDB.getYearPublished();
             this.bookMap.put(bookId, bookFromDB);
             return bookFromDB;
         } else {
