@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.text.SimpleDateFormat;
@@ -39,4 +40,28 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler (value = CannotUploadFileException.class)
+    public ResponseEntity<Object> cannotUploadFileException (CannotUploadFileException cannotUploadFileException) {
+
+        ExceptionMessage exceptionMessage = new ExceptionMessage(500, cannotUploadFileException.getMessage(),
+                new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Date()));
+        return new ResponseEntity<>(exceptionMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler (value = UploadedFileNotFoundException.class)
+    public ResponseEntity<Object> uploadedFileNotFoundException (UploadedFileNotFoundException uploadedFileNotFoundException) {
+
+        ExceptionMessage exceptionMessage = new ExceptionMessage(404, uploadedFileNotFoundException.getMessage(),
+                new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Date()));
+        return new ResponseEntity<>(exceptionMessage, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler (value = MaxUploadSizeExceededException.class)
+    public ResponseEntity<Object> maxUploadSizeExceededException (MaxUploadSizeExceededException maxUploadSizeExceededException) {
+
+        ExceptionMessage exceptionMessage = new ExceptionMessage(400, "Maximum allowed file size is 1 MB. " +
+                "Current File being uploaded exceeds this limit",
+                new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Date()));
+        return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
+    }
 }
