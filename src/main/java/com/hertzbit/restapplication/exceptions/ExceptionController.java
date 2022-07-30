@@ -32,6 +32,22 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionMessage, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler (value = NoStudentFoundException.class)
+    public ResponseEntity<Object> noStudentFoundException (NoStudentFoundException noStudentFound) {
+
+        ExceptionMessage exceptionMessage = new ExceptionMessage(404, noStudentFound.getMessage(),
+                new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Date()));
+        return new ResponseEntity<>(exceptionMessage, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler (value = UserAlreadyExistsException.class)
+    public ResponseEntity<Object> userAlreadyExistsException (UserAlreadyExistsException userAlreadyExistsException) {
+
+        ExceptionMessage exceptionMessage = new ExceptionMessage(400, userAlreadyExistsException.getMessage(),
+                new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Date()));
+        return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler (value = BookWithSameISBNExistsException.class)
     public ResponseEntity<Object> bookWithSameISBNExistsException (BookWithSameISBNExistsException bookWithSameISBNExists) {
 
